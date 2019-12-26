@@ -30,7 +30,7 @@ RUN apt update -y \
     && rm /var/www/* -rf \
     && mv piwigo/* /var/www/ \
     && rm -r piwigo* \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN cp -vf /var/www/include/config_default.inc.php /var/www/local/config/config.inc.php \
     && mkdir /template /data /config \
