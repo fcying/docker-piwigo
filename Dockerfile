@@ -6,8 +6,8 @@ ENV DEBIAN_FRONTEND noninteractive
 
 ARG PIWIGO_VERSION="2.10.1"
 
-RUN apt update -y \
-    && apt install -yy \
+RUN apt-get update -y \
+    && apt-get install -yy --no-install-recommends \
     vim \
     apache2 \
     libapache2-mod-php \
@@ -18,7 +18,6 @@ RUN apt update -y \
     php-xml \
     php-imagick \
     dcraw \
-    mediainfo \
     ffmpeg\
     imagemagick \
     wget \
@@ -30,7 +29,7 @@ RUN apt update -y \
     && rm /var/www/* -rf \
     && mv piwigo/* /var/www/ \
     && rm -r piwigo* \
-    && apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN cp -vf /var/www/include/config_default.inc.php /var/www/local/config/config.inc.php \
     && mkdir /template /data /config \
@@ -48,6 +47,5 @@ RUN cp -vf /var/www/include/config_default.inc.php /var/www/local/config/config.
 VOLUME ["/data"]
 
 ADD entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 EXPOSE 80
